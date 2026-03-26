@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Honey'B — Shampoo Sólido Premium con Miel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#d4af35",
+          "primary-light": "#f0d060",
+          "background-light": "#f8f7f4",
+          "background-dark": "#1a1710",
+          "sage": "#8da399",
+          "honey-dark": "#3a3020",
+          "honey-mid": "#6b5a3e",
+        },
+        fontFamily: {
+          "display": ["Manrope", "sans-serif"],
+          "serif": ["Playfair Display", "serif"]
+        },
+      },
+    },
+  }
+</script>
+<style>
+  :root {
+    --primary: #d4af35;
+    --primary-light: #f0d060;
+    --bg-light: #f8f7f4;
+    --honey-dark: #3a3020;
+    --sage: #8da399;
+  }
+
+  * { scroll-behavior: smooth; }
+
+  body { font-family: 'Manrope', sans-serif; background: var(--bg-light); color: var(--honey-dark); }
+
+  /* ---- Typography ---- */
+  .serif { font-family: 'Playfair Display', serif; }
+
+  /* ---- Carousel ---- */
+  .carousel-img { position: absolute; inset: 0; opacity: 0; transition: opacity 1.5s ease-in-out; }
+  .carousel-img.active { opacity: 1; }
+  .providers-carousel-img { position: absolute; inset: 0; opacity: 0; transition: opacity 1.5s ease-in-out; }
+  .providers-carousel-img.active { opacity: 1; }
+  .quality-carousel-item { position: absolute; inset: 0; opacity: 0; transition: opacity 1.5s ease-in-out; }
+  .quality-carousel-item.active { opacity: 1; }
+  .quality-carousel-item img { object-fit: contain; background: rgba(15, 23, 42, 0.08); }
+  .quality-caption {
+    left: 1rem;
+    right: auto;
+    bottom: 1rem;
+    width: fit-content;
+    max-width: calc(100% - 2rem);
+    background: rgba(100, 116, 139, 0.78);
+    color: #ffffff;
+    border-radius: 0.65rem;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    backdrop-filter: blur(3px);
+  }
+
+  /* ---- Scroll reveal ---- */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.75s ease, transform 0.75s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s ease, transform 0.75s ease; }
+  .reveal-left.visible { opacity: 1; transform: none; }
+  .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.75s ease, transform 0.75s ease; }
+  .reveal-right.visible { opacity: 1; transform: none; }
+
+  /* ---- Hero gradient overlay ---- */
+  .hero-bg {
+    background: linear-gradient(135deg, #f8f7f4 0%, #fdf9ef 50%, #f4efdf 100%);
+  }
+  .hero-honeycomb {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cpath d='M40 0L80 23v46L40 92 0 69V23z' fill='none' stroke='%23d4af3520' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 80px 92px;
+  }
+
+  /* ---- Floating badge ---- */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(-3deg); }
+    50% { transform: translateY(-10px) rotate(-3deg); }
+  }
+  .float-badge { animation: float 3s ease-in-out infinite; }
+
+  /* ---- Gold shimmer text ---- */
+  .gold-text {
+    background: linear-gradient(135deg, #b8952a 0%, #d4af35 40%, #f0d060 70%, #d4af35 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ---- Counter animation ---- */
+  @keyframes countUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .count-item { animation: countUp 0.5s ease forwards; }
+
+  /* ---- Ticker ---- */
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .ticker-inner { display: flex; animation: ticker 28s linear infinite; white-space: nowrap; }
+
+  /* ---- FAQ accordion ---- */
+  .faq-answer { max-height: 0; opacity: 0; overflow: hidden; border-top: 1px solid rgba(212,175,53,0.15); transition: max-height 0.4s ease, opacity 0.4s ease; }
+  .faq-item.open .faq-answer { max-height: 500px; opacity: 1; }
+  .faq-trigger { position: relative; padding-right: 3.5rem; }
+  .faq-trigger::after {
+    content: '+';
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .faq-item.open .faq-trigger::after { content: '−'; }
+
+  .lang-btn { transition: all 0.2s ease; }
+  .lang-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+  /* ---- Card hover ---- */
+  .prod-card { transition: transform 0.35s ease, box-shadow 0.35s ease; }
+  .prod-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(212,175,53,0.15); }
+  .product-image { transition: transform 0.45s ease; transform-origin: center center; }
+  #productos .prod-card:hover .product-image { transform: scale(1.06); }
+
+  /* ---- Section label ---- */
+  .section-label {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700;
+    color: var(--primary); font-family: 'Manrope', sans-serif;
+  }
+
+  /* ---- Divider dot ---- */
+  .dot-divider { display: flex; align-items: center; gap: 0.5rem; }
+  .dot-divider::before, .dot-divider::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.12; }
+
+  /* ---- Sticky nav shrink ---- */
+  header.shrink { height: 64px !important; }
+  header { transition: height 0.3s ease, box-shadow 0.3s ease; height: 80px; }
+
+  /* ---- Aroma hover ---- */
+  .aroma-card {
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  }
+  .aroma-card img {
+    transition: transform 0.45s ease;
+    transform-origin: center center;
+  }
+  .aroma-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(212, 175, 53, 0.35);
+    box-shadow: 0 18px 34px -20px rgba(15, 23, 42, 0.35), 0 10px 24px -18px rgba(212, 175, 53, 0.5);
+  }
+  .aroma-card:hover img { transform: scale(1.04); }
+
+  /* ---- Testimonial ---- */
+  .stars { color: var(--primary); letter-spacing: 2px; }
+</style>
+</head>
+<body class="bg-background-light text-honey-dark">
+
+<!-- ==================== NAVBAR ==================== -->
+<header id="navbar" class="sticky top-0 z-50 w-full border-b border-primary/10 bg-background-light/90 backdrop-blur-md">
+  <div class="max-w-[1280px] mx-auto px-6 md:px-12 flex items-center justify-between h-full">
+    <div class="flex items-center gap-10">
+      <a href="#hero" class="flex items-center gap-2 group">
+        <img alt="HoneyB Logo" class="h-8 w-8" src="img/Honey Original.png" onerror="this.style.display='none'"/>
+        <span class="text-xl font-black tracking-tight serif text-primary">Honey'B</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-7">
+        <a class="text-xs font-semibold uppercase tracking-widest hover:text-primary transition-colors" href="#porque" data-i18n="nav_why">Por qué</a>
+        <a class="text-xs font-semibold uppercase tracking-widest hover:text-primary transition-colors" href="#historia" data-i18n="nav_story">Historia</a>
+        <a class="text-xs font-semibold uppercase tracking-widest hover:text-primary transition-colors" href="#productos" data-i18n="nav_products">Productos</a>
+        <a class="text-xs font-semibold uppercase tracking-widest hover:text-primary transition-colors" href="#aromas" data-i18n="nav_scents">Aromas</a>
+        <a class="text-xs font-semibold uppercase tracking-widest hover:text-primary transition-colors" href="#proveedores" data-i18n="nav_suppliers">Proveedores</a>
+        <a class="text-xs font-semibold uppercase tracking-widest hover:text-primary transition-colors" href="#hoteleria" data-i18n="nav_hospitality">Hotelería</a>
+        <a class="text-xs font-semibold uppercase tracking-widest hover:text-primary transition-colors" href="#faq">FAQ</a>
+        <a class="text-xs font-semibold uppercase tracking-widest hover:text-primary transition-colors" href="#contacto" data-i18n="nav_contact">Contacto</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="hidden md:flex items-center rounded-full border border-primary/20 p-1 bg-white/60">
+        <button id="lang-es" class="lang-btn active px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-full border border-transparent">ES</button>
+        <button id="lang-en" class="lang-btn px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-full border border-transparent">EN</button>
+      </div>
+      <a href="https://wa.me/573180775959" target="_blank"
+         class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-widest rounded-full hover:bg-primary-light hover:text-honey-dark transition-all">
+        <span class="material-symbols-outlined text-sm">shopping_bag</span> <span data-i18n="buy">Comprar</span>
+      </a>
+      <!-- Mobile menu btn -->
+      <button id="mobile-btn" class="md:hidden p-2 rounded-full hover:bg-primary/10">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav -->
+<div id="mobile-nav" class="fixed inset-0 z-40 bg-background-dark/95 backdrop-blur-lg hidden flex-col items-center justify-center gap-8 text-white">
+  <button id="mobile-close" class="absolute top-6 right-6 p-2"><span class="material-symbols-outlined text-white text-3xl">close</span></button>
+  <a onclick="closeMobileNav()" class="text-2xl serif font-bold text-primary" href="#porque" data-i18n="mobile_why_honeyb">Por qué</a>
+  <a onclick="closeMobileNav()" class="text-2xl serif font-bold" href="#historia" data-i18n="nav_story">Historia</a>
+  <a onclick="closeMobileNav()" class="text-2xl serif font-bold" href="#productos" data-i18n="nav_products">Productos</a>
+  <a onclick="closeMobileNav()" class="text-2xl serif font-bold" href="#aromas" data-i18n="nav_scents">Aromas</a>
+  <a onclick="closeMobileNav()" class="text-2xl serif font-bold" href="#proveedores" data-i18n="nav_suppliers">Proveedores</a>
+  <a onclick="closeMobileNav()" class="text-2xl serif font-bold" href="#hoteleria" data-i18n="nav_hospitality">Hotelería</a>
+  <a onclick="closeMobileNav()" class="text-2xl serif font-bold" href="#faq">FAQ</a>
+  <a onclick="closeMobileNav()" class="text-2xl serif font-bold" href="#contacto" data-i18n="nav_contact">Contacto</a>
+  <div class="flex items-center gap-2">
+    <button id="lang-es-mobile" class="lang-btn active px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border border-white/30">ES</button>
+    <button id="lang-en-mobile" class="lang-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border border-white/30">EN</button>
+  </div>
+  <a href="https://wa.me/573180775959" target="_blank" class="mt-4 px-8 py-3 bg-primary text-honey-dark font-black rounded-full text-sm uppercase tracking-widest" data-i18n="buy_now">Comprar ahora</a>
+</div>
+
+<main>
+
+<!-- ==================== HERO ==================== -->
+<section id="hero" class="relative min-h-[95vh] flex items-center overflow-hidden hero-bg hero-honeycomb">
+  <!-- Ambient blobs -->
+  <div class="absolute -top-32 -right-32 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute -bottom-20 -left-20 w-[400px] h-[400px] bg-sage/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+  <div class="max-w-[1280px] mx-auto px-6 md:px-12 w-full py-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+    <!-- Left: Copy -->
+    <div class="z-10 order-2 lg:order-1">
+      <div class="reveal">
+        <span class="section-label mb-4 block">Desde 2022 — Innovación en cuidado capilar</span>
+      </div>
+
+      <h1 class="serif font-black leading-[1.05] mb-6 reveal" style="font-size: clamp(2.8rem, 7vw, 5.5rem); transition-delay: 0.1s">
+        Shampoo sólido<br/>
+        <em class="not-italic gold-text">premium</em><br/>
+        con miel.
+      </h1>
+
+      <p class="text-lg md:text-xl text-honey-mid max-w-xl mb-4 leading-relaxed reveal" style="transition-delay:0.2s">
+        Cabello limpio, brillante y suave — con una fórmula más limpia <span class="font-semibold">(sin químicos contaminantes)</span>.
+      </p>
+
+      <!-- Stats strip -->
+      <div class="flex flex-wrap gap-5 mb-8 reveal" style="transition-delay:0.3s">
+        <div class="flex items-center gap-2 bg-primary/8 rounded-full px-4 py-2 border border-primary/15">
+          <span class="text-primary font-black text-lg">70g</span>
+          <span class="text-xs text-honey-mid font-medium">= 35–58 lavadas</span>
+        </div>
+        <div class="flex items-center gap-2 bg-primary/8 rounded-full px-4 py-2 border border-primary/15">
+          <span class="text-primary font-black text-lg">20g</span>
+          <span class="text-xs text-honey-mid font-medium">= 10–16 lavadas</span>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-4 mb-10 reveal" style="transition-delay:0.35s">
+        <a href="#productos" class="px-8 py-4 bg-primary text-white font-bold rounded-lg hover:bg-primary-light hover:text-honey-dark transition-all shadow-lg shadow-primary/20 text-sm uppercase tracking-wider">
+          Comprar ahora
+        </a>
+        <a href="https://wa.me/573180775959" target="_blank" class="px-8 py-4 border-2 border-primary/30 text-honey-dark font-bold rounded-lg hover:bg-primary/8 transition-all text-sm uppercase tracking-wider flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+        <a href="#hoteleria" class="px-8 py-4 border border-honey-dark/15 text-honey-dark font-bold rounded-lg hover:bg-honey-dark/5 transition-all text-sm uppercase tracking-wider">
+          Cotizar hotelería
+        </a>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="flex flex-wrap gap-4 reveal" style="transition-delay:0.45s">
+        <span class="text-xs text-honey-mid flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-sm">family_restroom</span> Para toda la familia</span>
+        <span class="text-xs text-honey-mid flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-sm">water_drop</span> Amable con el agua</span>
+        <span class="text-xs text-honey-mid flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-sm">science</span> Proceso controlado</span>
+      </div>
+    </div>
+
+    <!-- Right: Image carousel -->
+    <div class="relative order-1 lg:order-2 flex justify-center">
+      <div class="relative w-full max-w-[480px] aspect-square">
+        <!-- Main carousel box -->
+        <div class="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-primary/15 rotate-2 hover:rotate-0 transition-transform duration-700">
+          <div class="relative w-full h-full">
+            <img class="carousel-img w-full h-full object-cover" src="img/WhatsApp Image 2026-03-12 at 8.42.24 AM.jpeg" alt="HoneyB Shampoo Sólido"/>
+            <img class="carousel-img w-full h-full object-cover" src="img/e54859bb-d77c-4ba7-8917-53fba58b5ce9.jpg" alt="HoneyB Natural"/>
+            <img class="carousel-img w-full h-full object-cover" src="img/480607742_618046117642513_8318757105692904894_n.jpg" alt="HoneyB Premium"/>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-honey-dark/20 to-transparent"></div>
+        </div>
+
+        <!-- Floating badge -->
+        <div class="float-badge absolute -bottom-4 -left-6 bg-white rounded-2xl px-5 py-3 shadow-xl border border-primary/10">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🍯</span>
+            <div>
+              <div class="text-xs font-black text-honey-dark uppercase tracking-wider">Miel premium</div>
+              <div class="text-xs text-honey-mid">Fundación Skambra</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Since badge -->
+        <div class="absolute -top-4 -right-4 bg-primary rounded-2xl px-4 py-3 shadow-lg">
+          <div class="text-white text-center">
+            <div class="text-xs font-black uppercase tracking-wider">Desde</div>
+            <div class="text-xl font-black">2022</div>
+          </div>
+        </div>
+
+        <!-- Blobs -->
+        <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-sage/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-primary/15 rounded-full blur-3xl pointer-events-none"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== TICKER ==================== -->
+<div class="overflow-hidden bg-primary py-3 border-y border-primary-light/30">
+  <div class="ticker-inner text-background-dark font-black text-xs uppercase tracking-widest select-none">
+    <span class="px-8">Cabello premium, impacto real</span>
+    <span class="px-8">·</span>
+    <span class="px-8">Lujo consciente para tu rutina</span>
+    <span class="px-8">·</span>
+    <span class="px-8">Rinde más. Fórmula más limpia. Se siente mejor</span>
+    <span class="px-8">·</span>
+    <span class="px-8">Desde Colombia con propósito</span>
+    <span class="px-8">·</span>
+    <span class="px-8">Cabello premium, impacto real</span>
+    <span class="px-8">·</span>
+    <span class="px-8">Lujo consciente para tu rutina</span>
+    <span class="px-8">·</span>
+    <span class="px-8">Rinde más. Fórmula más limpia. Se siente mejor</span>
+    <span class="px-8">·</span>
+    <span class="px-8">Desde Colombia con propósito</span>
+    <span class="px-8">·</span>
+  </div>
+</div>
+
+<!-- ==================== POR QUÉ HONEYNB ==================== -->
+<section id="porque" class="py-28 px-6 md:px-12 bg-background-light">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label block mb-3">Por qué HoneyB</span>
+      <h2 class="serif font-bold text-4xl md:text-5xl mb-4">Lujo consciente para tu <em class="italic text-primary">rutina</em></h2>
+      <div class="w-16 h-0.5 bg-primary mx-auto"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <!-- Card 1 -->
+      <div class="reveal bg-white rounded-3xl p-8 border border-primary/8 prod-card" style="transition-delay:0.05s">
+        <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-primary transition-all">
+          <span class="material-symbols-outlined text-primary text-3xl">spa</span>
+        </div>
+        <h3 class="serif text-xl font-bold mb-3">Experiencia premium que se nota</h3>
+        <p class="text-honey-mid text-sm leading-relaxed">Espuma cremosa, limpieza efectiva y una fragancia elegante, limpia y sofisticada.</p>
+      </div>
+      <!-- Card 2 -->
+      <div class="reveal bg-white rounded-3xl p-8 border border-primary/8 prod-card" style="transition-delay:0.15s">
+        <div class="w-14 h-14 bg-sage/15 rounded-2xl flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-sage text-3xl">water_drop</span>
+        </div>
+        <h3 class="serif text-xl font-bold mb-3">Fórmula más limpia</h3>
+        <p class="text-honey-mid text-sm leading-relaxed">Libre de químicos contaminantes: cuidado para ti y más respeto por el agua.</p>
+      </div>
+      <!-- Card 3 -->
+      <div class="reveal bg-white rounded-3xl p-8 border border-primary/8 prod-card" style="transition-delay:0.25s">
+        <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-primary text-3xl">repeat</span>
+        </div>
+        <h3 class="serif text-xl font-bold mb-3">Rinde muchísimo</h3>
+        <p class="text-honey-mid text-sm leading-relaxed">Una barra dura decenas de lavadas: menos compras, menos envases, más valor.</p>
+      </div>
+    </div>
+
+    <!-- Resultados strip -->
+    <div class="reveal bg-honey-dark rounded-3xl p-10 text-white">
+      <div class="text-center mb-8">
+        <h3 class="serif text-3xl font-bold mb-2">Resultados que se notan desde la <em class="italic text-primary">primera lavada</em></h3>
+        <p class="text-white/60 text-sm">Cabello limpio, brillante y suave — con una fórmula más limpia.</p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-4">
+        <span class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-sm">✓ Limpia sin resecar</span>
+        <span class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-sm">✓ Brillo y suavidad</span>
+        <span class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-sm">✓ Cabello más fuerte</span>
+        <span class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-sm">✓ Cuero cabelludo cómodo</span>
+        <span class="px-4 py-2 rounded-full bg-primary/20 border border-primary/30 text-primary text-sm font-bold">✓ Para toda la familia</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HISTORIA ==================== -->
+<section id="historia" class="py-28 px-6 md:px-12 bg-white">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- Image placeholder / decorative -->
+      <div class="reveal-left order-2 lg:order-1">
+        <div class="relative">
+          <div class="aspect-[4/5] rounded-3xl bg-gradient-to-br from-primary/10 to-sage/10 overflow-hidden border border-primary/15 shadow-lg shadow-slate-400/25 flex items-center justify-center">
+            <img src="img/santiago.jpeg" alt="Santiago Cavanzo — Fundador Honey'B" class="w-full h-full object-cover"
+                 onerror="this.parentElement.innerHTML='<div class=\'p-12 text-center\'><div class=\'text-8xl mb-4\'>🍯</div><p class=\'text-honey-mid serif text-lg italic\'>Santiago Cavanzo<br/>Fundador & CEO</p></div>'"/>
+          </div>
+          <!-- Decoration -->
+          <div class="absolute -bottom-6 -right-6 bg-primary rounded-2xl p-5 shadow-xl">
+            <div class="text-white text-center">
+              <div class="text-3xl font-black serif">2022</div>
+              <div class="text-xs uppercase tracking-wider font-bold mt-1">Fundación</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="order-1 lg:order-2">
+        <div class="reveal">
+          <span class="section-label block mb-3">Historia</span>
+          <h2 class="serif font-bold text-4xl md:text-5xl mb-6">HONEY'B, una marca que ha <em class="italic text-primary">evolucionado</em> con propósito</h2>
+        </div>
+        <div class="reveal" style="transition-delay:0.1s">
+          <p class="text-honey-mid leading-relaxed mb-8">
+            HONEY'B nació en 2022 como un emprendimiento con una idea clara: crear un shampoo sólido premium que cuidara el cabello y redujera residuos. Desde entonces hemos evolucionado: mejoramos la fórmula, optimizamos procesos y elevamos la experiencia, manteniendo nuestro compromiso con el agua y con una cadena productiva responsable.
+          </p>
+
+          <!-- CEO card -->
+          <div class="bg-background-light rounded-2xl p-6 border border-primary/10 mb-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-primary">person</span>
+              </div>
+              <div>
+                <div class="font-black text-honey-dark">Santiago Cavanzo</div>
+                <div class="text-xs text-primary font-bold uppercase tracking-wider mb-2">Fundador & CEO · Honey'B S.A.S.</div>
+                <p class="text-honey-mid text-sm leading-relaxed">
+                  Emprendedor y consultor estratégico (2001). <em>Cum Laude</em> en Administración de Empresas y con MBA en curso. Lideró proyectos de sostenibilidad e innovación social y fue delegado en el 14.º Foro de Juventudes de la UNESCO. Su meta: llevar un producto colombiano premium a mercados internacionales.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-sm font-bold text-honey-mid uppercase tracking-widest border-l-2 border-primary pl-4">
+            Trayectoria real. Calidad en evolución. Impacto con intención.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PRODUCTOS ==================== -->
+<section id="productos" class="py-28 px-6 md:px-12 bg-background-light">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label block mb-3">Nuestros productos</span>
+      <h2 class="serif font-bold text-4xl md:text-5xl mb-2">Compra <em class="italic text-primary">HoneyB</em></h2>
+      <p class="text-honey-mid">Elige tu presentación y aroma. Agrega al carrito y finaliza tu compra.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">
+      <!-- 70g -->
+      <div class="reveal prod-card bg-white rounded-3xl overflow-hidden border border-primary/10 shadow-sm" style="transition-delay:0.05s">
+        <div class="relative aspect-[4/3] bg-gradient-to-br from-primary/8 to-sage/8 overflow-hidden">
+          <img src="img/produccion4.jpeg" alt="HoneyB 70g" class="product-image w-full h-full object-cover"
+               onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full\'><span class=\'text-8xl\'>🧴</span></div>'"/>
+          <span class="absolute top-4 left-4 bg-honey-dark text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">Uso regular</span>
+        </div>
+        <div class="p-8">
+          <h3 class="serif text-2xl font-bold mb-1">HoneyB 70 g</h3>
+          <p class="text-honey-mid text-sm mb-5 leading-relaxed">Formato ideal para el día a día: rinde muchísimo y deja el cabello limpio, suave y con brillo natural.</p>
+          <div class="space-y-2 mb-6 text-sm">
+            <div class="flex items-start gap-2"><span class="font-bold text-honey-dark w-28 flex-shrink-0">Duración:</span><span class="text-honey-mid">35–58 lavadas (≈ 2–3 botellas aprox., según uso)</span></div>
+            <div class="flex items-start gap-2"><span class="font-bold text-honey-dark w-28 flex-shrink-0">Ingredientes:</span><span class="text-honey-mid">Miel, romero, cúrcuma, manteca de karité, aceites esenciales</span></div>
+            <div class="flex items-start gap-2"><span class="font-bold text-honey-dark w-28 flex-shrink-0">Empaque:</span><span class="text-honey-mid">Cartón ecofriendly 100% reciclable</span></div>
+          </div>
+          <a href="https://wa.me/573180775959?text=Hola,%20quiero%20comprar%20HoneyB%2070g" target="_blank"
+             class="block w-full text-center py-3.5 bg-primary text-white font-bold rounded-xl hover:bg-primary-light hover:text-honey-dark transition-all text-sm uppercase tracking-wider">
+            Agregar al carrito
+          </a>
+        </div>
+      </div>
+
+      <!-- 20g -->
+      <div class="reveal prod-card bg-white rounded-3xl overflow-hidden border border-primary/10 shadow-sm" style="transition-delay:0.15s">
+        <div class="relative aspect-[4/3] bg-gradient-to-br from-sage/10 to-primary/8 overflow-hidden">
+          <img src="img/productos2.jpeg" alt="HoneyB 20g" class="product-image w-full h-full object-cover"
+               onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full\'><span class=\'text-8xl\'>🛎️</span></div>'"/>
+          <span class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">Hospitalidad & Viaje</span>
+        </div>
+        <div class="p-8">
+          <h3 class="serif text-2xl font-bold mb-1">HoneyB 20 g</h3>
+          <p class="text-honey-mid text-sm mb-5 leading-relaxed">Amenidad premium para hotelería de lujo, glamping y experiencias exclusivas.</p>
+          <div class="space-y-2 mb-6 text-sm">
+            <div class="flex items-start gap-2"><span class="font-bold text-honey-dark w-28 flex-shrink-0">Duración:</span><span class="text-honey-mid">10–16 lavadas (≈ 0,5–1 botella aprox., según uso)</span></div>
+            <div class="flex items-start gap-2"><span class="font-bold text-honey-dark w-28 flex-shrink-0">Ingredientes:</span><span class="text-honey-mid">Miel, romero, cúrcuma, manteca de karité, aceites esenciales</span></div>
+            <div class="flex items-start gap-2"><span class="font-bold text-honey-dark w-28 flex-shrink-0">Empaque:</span><span class="text-honey-mid">Cartón ecofriendly 100% reciclable</span></div>
+          </div>
+          <a href="https://wa.me/573180775959?text=Hola,%20quiero%20comprar%20HoneyB%2020g" target="_blank"
+             class="block w-full text-center py-3.5 bg-primary text-white font-bold rounded-xl hover:bg-primary-light hover:text-honey-dark transition-all text-sm uppercase tracking-wider">
+            Agregar al carrito
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hoteles CTA -->
+    <div class="reveal text-center">
+      <a href="#hoteleria" class="inline-flex items-center gap-2 px-8 py-3.5 border-2 border-primary/30 rounded-full text-sm font-bold hover:bg-primary/8 transition-all">
+        <span class="material-symbols-outlined text-primary text-sm">hotel</span>
+        ¿Eres hotel o glamping? Cotiza aquí →
+      </a>
+      <p class="text-xs text-honey-mid mt-4">🇨🇴 Envíos a Colombia · ✈️ Despachos internacionales (consulta destino)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CÓMO SE USA ==================== -->
+<section id="como-usar" class="py-28 px-6 md:px-12 bg-honey-dark text-white">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label block mb-3 text-primary">Cómo se usa</span>
+      <h2 class="serif font-bold text-4xl md:text-5xl mb-3">¿Primera vez con shampoo sólido? <em class="italic text-primary">Es facilísimo.</em></h2>
+      <p class="text-white/60">3 pasos y listo: una rutina premium, más limpia y sin plástico.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <div class="reveal text-center" style="transition-delay:0.05s">
+        <div class="w-20 h-20 rounded-full border-2 border-primary/30 flex items-center justify-center mx-auto mb-5 bg-primary/10">
+          <span class="serif text-3xl font-black text-primary">01</span>
+        </div>
+        <h3 class="serif text-xl font-bold mb-3">Humedece</h3>
+        <p class="text-white/60 text-sm leading-relaxed">Moja tu cabello y la barra.</p>
+      </div>
+      <div class="reveal text-center" style="transition-delay:0.15s">
+        <div class="w-20 h-20 rounded-full border-2 border-primary/60 flex items-center justify-center mx-auto mb-5 bg-primary/20">
+          <span class="serif text-3xl font-black text-primary">02</span>
+        </div>
+        <h3 class="serif text-xl font-bold mb-3">Activa la espuma</h3>
+        <p class="text-white/60 text-sm leading-relaxed">Frota la barra en tus manos o directamente en el cabello hasta generar espuma cremosa.</p>
+      </div>
+      <div class="reveal text-center" style="transition-delay:0.25s">
+        <div class="w-20 h-20 rounded-full border-2 border-primary flex items-center justify-center mx-auto mb-5 bg-primary/30">
+          <span class="serif text-3xl font-black text-primary">03</span>
+        </div>
+        <h3 class="serif text-xl font-bold mb-3">Masajea y enjuaga</h3>
+        <p class="text-white/60 text-sm leading-relaxed">Masajea como siempre y enjuaga con agua.</p>
+      </div>
+    </div>
+
+    <div class="reveal max-w-2xl mx-auto bg-white/5 border border-primary/20 rounded-2xl p-5 text-center">
+      <span class="text-primary font-bold">💡 Tip para que dure más:</span>
+      <span class="text-white/70 text-sm ml-2">Déjala secar en una jabonera con drenaje, lejos del chorro directo.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== AROMAS ==================== -->
+<section id="aromas" class="py-28 px-6 md:px-12 bg-white">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label block mb-3">Aromas</span>
+      <h2 class="serif font-bold text-4xl md:text-5xl mb-3">Tres aromas, un sello: limpio, <em class="italic text-primary">elegante</em> y memorable.</h2>
+      <p class="text-honey-mid max-w-xl mx-auto text-sm">Aromas diseñados para quedarse en la memoria, sin saturar: frescos, limpios y sofisticados.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Lino Blanco -->
+      <div class="reveal aroma-card rounded-3xl overflow-hidden border border-primary/10 shadow-sm bg-background-light" style="transition-delay:0.05s">
+        <div class="aspect-square bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center text-7xl overflow-hidden">
+          <img src="img/lino_blanco.jpeg" alt="Lino Blanco" class="w-full h-full object-cover"
+               onerror="this.parentElement.innerHTML='<span class=\'text-7xl\'>🕊️</span>'"/>
+        </div>
+        <div class="p-6">
+          <div class="text-xs text-primary font-bold uppercase tracking-widest mb-1">White Linen</div>
+          <h3 class="serif text-xl font-bold mb-2">Lino Blanco</h3>
+          <p class="text-xs text-honey-mid mb-3">limpio · minimalista · universal</p>
+          <p class="text-honey-mid text-sm">Frescura elegante que combina con todo.</p>
+        </div>
+      </div>
+
+      <!-- Flor de Café -->
+      <div class="reveal aroma-card rounded-3xl overflow-hidden border border-primary/10 shadow-sm bg-background-light" style="transition-delay:0.15s">
+        <div class="aspect-square bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center text-7xl overflow-hidden">
+          <img src="img/flor_cafe.jpeg" alt="Flor de Café" class="w-full h-full object-cover"
+               onerror="this.parentElement.innerHTML='<span class=\'text-7xl\'>☕</span>'"/>
+        </div>
+        <div class="p-6">
+          <div class="text-xs text-primary font-bold uppercase tracking-widest mb-1">Coffee Blossom</div>
+          <h3 class="serif text-xl font-bold mb-2">Flor de Café</h3>
+          <p class="text-xs text-honey-mid mb-3">Colombia sofisticada · memorable · nada dulce</p>
+          <p class="text-honey-mid text-sm">Un sello distintivo, fino y único.</p>
+        </div>
+      </div>
+
+      <!-- Bosque Andino -->
+      <div class="reveal aroma-card rounded-3xl overflow-hidden border border-primary/10 shadow-sm bg-background-light" style="transition-delay:0.25s">
+        <div class="aspect-square bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center text-7xl overflow-hidden">
+          <img src="img/bosque_andino.jpeg" alt="Bosque Andino" class="w-full h-full object-cover"
+               onerror="this.parentElement.innerHTML='<span class=\'text-7xl\'>🌿</span>'"/>
+        </div>
+        <div class="p-6">
+          <div class="text-xs text-primary font-bold uppercase tracking-widest mb-1">Andean Forest</div>
+          <h3 class="serif text-xl font-bold mb-2">Bosque Andino</h3>
+          <p class="text-xs text-honey-mid mb-3">spa moderno · fresco-verde · naturaleza premium</p>
+          <p class="text-honey-mid text-sm">Verde, limpio y revitalizante.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== IMPACTO ==================== -->
+<section id="impacto" class="py-28 px-6 md:px-12 bg-background-light">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label block mb-3">Compromiso</span>
+      <h2 class="serif font-bold text-4xl md:text-5xl mb-3">Impacto que se siente. <em class="italic text-primary">Impacto que se mide.</em></h2>
+      <p class="text-honey-mid max-w-xl mx-auto text-sm">Lo que pones en tu cabello también termina en el agua. Por eso nuestra fórmula es libre de químicos contaminantes, y al ser sólida reduce el uso de envases.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="reveal bg-white rounded-3xl p-8 border border-primary/8 text-center prod-card" style="transition-delay:0.05s">
+        <div class="text-5xl mb-4">💧</div>
+        <h3 class="serif text-xl font-bold mb-3">Agua más limpia</h3>
+        <p class="text-honey-mid text-sm">Fórmula libre de químicos contaminantes para un cuidado responsable con el entorno.</p>
+      </div>
+      <div class="reveal bg-white rounded-3xl p-8 border border-primary/8 text-center prod-card" style="transition-delay:0.15s">
+        <div class="text-5xl mb-4">♻️</div>
+        <h3 class="serif text-xl font-bold mb-3">Menos plástico</h3>
+        <p class="text-honey-mid text-sm">Reduces envases con cada barra. Empaque 100% ecofriendly y reciclable.</p>
+      </div>
+      <div class="reveal bg-white rounded-3xl p-8 border border-primary/8 text-center prod-card" style="transition-delay:0.25s">
+        <div class="text-5xl mb-4">⚡</div>
+        <h3 class="serif text-xl font-bold mb-3">Rinde más</h3>
+        <p class="text-honey-mid text-sm">Hasta 58 lavadas por barra. Menos compras, menos residuos, más valor real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PROVEEDORES ==================== -->
+<section id="proveedores" class="py-28 px-6 md:px-12 bg-white">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div class="reveal-left">
+        <span class="section-label block mb-3">Cadena de valor</span>
+        <h2 class="serif font-bold text-4xl md:text-5xl mb-6">Detrás de cada barra, <em class="italic text-primary">hay un territorio</em></h2>
+        <p class="text-honey-mid leading-relaxed mb-6">
+          La miel que usamos en HoneyB proviene de la <strong class="text-honey-dark">Fundación Skambra Al Desarrollo</strong> (Alianza con apicultores de Tierralta, Córdoba). Más que un proveedor, es un aliado que nos permite construir una relación basada en confianza, comercio responsable y valor compartido.
+        </p>
+        <p class="text-honey-mid text-sm mb-8">Elegimos esta cadena porque creemos que un producto premium también debe tener una historia coherente: calidad real, trazabilidad e impacto positivo para quienes producen.</p>
+
+        <div class="grid grid-cols-3 gap-4 mb-6">
+          <div class="bg-background-light rounded-2xl p-4 text-center border border-primary/10">
+            <div class="text-primary font-black text-lg mb-1">🔍</div>
+            <div class="text-xs font-bold text-honey-dark">Trazabilidad</div>
+            <div class="text-xs text-honey-mid mt-1">Miel de origen verificado</div>
+          </div>
+          <div class="bg-background-light rounded-2xl p-4 text-center border border-primary/10">
+            <div class="text-primary font-black text-lg mb-1">🤝</div>
+            <div class="text-xs font-bold text-honey-dark">Relación</div>
+            <div class="text-xs text-honey-mid mt-1">Compras responsables</div>
+          </div>
+          <div class="bg-background-light rounded-2xl p-4 text-center border border-primary/10">
+            <div class="text-primary font-black text-lg mb-1">🌻</div>
+            <div class="text-xs font-bold text-honey-dark">Impacto social</div>
+            <div class="text-xs text-honey-mid mt-1">Familias apicultoras</div>
+          </div>
+        </div>
+
+        <p class="text-sm font-bold uppercase tracking-widest border-l-2 border-primary pl-4 text-honey-mid">No es solo un ingrediente: es una relación que cuidamos.</p>
+      </div>
+
+      <!-- Providers carousel -->
+      <div class="reveal-right">
+        <div class="relative aspect-[4/3] rounded-3xl overflow-hidden border border-primary/10 shadow-2xl shadow-primary/25">
+          <img src="img/proveedores.jpeg" alt="Proveedores HoneyB 1" class="providers-carousel-img w-full h-full object-cover"
+               onerror="this.style.display='none'"/>
+          <img src="img/proveedores2.jpeg" alt="Proveedores HoneyB 2" class="providers-carousel-img w-full h-full object-cover"
+               onerror="this.style.display='none'"/>
+          <img src="img/proveedores3.jpeg" alt="Proveedores HoneyB 3" class="providers-carousel-img w-full h-full object-cover"
+            onerror="this.style.display='none'"/>
+          <img src="img/proveedores4.jpeg" alt="Proveedores HoneyB 4" class="providers-carousel-img w-full h-full object-cover"
+            onerror="this.style.display='none'"/>
+          <img src="img/proveedores5.jpeg" alt="Proveedores HoneyB 5" class="providers-carousel-img w-full h-full object-cover"
+            onerror="this.style.display='none'"/>
+          <img src="img/proveedores6.jpeg" alt="Proveedores HoneyB 6" class="providers-carousel-img w-full h-full object-cover"
+            onerror="this.style.display='none'"/>
+          <img src="img/proveedores7.jpeg" alt="Proveedores HoneyB 7" class="providers-carousel-img w-full h-full object-cover"
+            onerror="this.style.display='none'"/>
+          <img src="img/proveedores8.jpeg" alt="Proveedores HoneyB 8" class="providers-carousel-img w-full h-full object-cover"
+               onerror="this.style.display='none'"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-honey-dark/20 to-transparent pointer-events-none"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CALIDAD ==================== -->
+<section id="calidad" class="py-28 px-6 md:px-12 bg-background-light">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label block mb-3">Producción</span>
+      <h2 class="serif font-bold text-4xl md:text-5xl mb-3">Hecho con rigor. <em class="italic text-primary">Diseñado para resultados.</em></h2>
+      <p class="text-honey-mid text-sm">Formulación optimizada · Proceso controlado · Calidad por lote</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      <div class="reveal-left">
+        <p class="text-honey-mid leading-relaxed mb-8">
+          En HoneyB cuidamos cada etapa para entregar una experiencia premium constante: desde la formulación hasta el empaque. Trabajamos con un proceso de producción controlado y trazable, enfocado en seguridad, desempeño y consistencia.
+        </p>
+        <div class="relative aspect-[4/3] rounded-3xl overflow-hidden border border-primary/10 shadow-xl shadow-primary/10">
+          <div class="quality-carousel-item">
+            <img src="img/produccion1.jpeg" alt="Formulación y estabilidad" class="w-full h-full object-cover" onerror="this.style.display='none'"/>
+            <div class="quality-caption absolute">PROCESO DE PRODUCCIÓN</div>
+          </div>
+          <div class="quality-carousel-item">
+            <img src="img/produccion2.jpeg" alt="Control por lote" class="w-full h-full object-cover" onerror="this.style.display='none'"/>
+            <div class="quality-caption absolute">FORMULACIÓN</div>
+          </div>
+          <div class="quality-carousel-item">
+            <img src="img/produccion3.jpeg" alt="Buenas prácticas" class="w-full h-full object-cover" onerror="this.style.display='none'"/>
+            <div class="quality-caption absolute">CONTROL DE CALIDAD</div>
+          </div>
+          <div class="quality-carousel-item">
+            <img src="img/produccion5.jpeg" alt="Empaque y terminado" class="w-full h-full object-cover" onerror="this.style.display='none'"/>
+            <div class="quality-caption absolute">EMPAQUE Y TERMINADO</div>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-honey-dark/15 to-transparent pointer-events-none"></div>
+        </div>
+      </div>
+
+      <div class="reveal-right space-y-4">
+        <div class="bg-white rounded-2xl p-6 border border-primary/10">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="material-symbols-outlined text-primary text-xl">labs</span>
+            <h3 class="font-bold text-honey-dark">Formulación y estabilidad</h3>
+          </div>
+          <p class="text-honey-mid text-sm">Evaluaciones de calidad y estabilidad para mantener una experiencia consistente: textura, espuma y desempeño.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 border border-primary/10">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="material-symbols-outlined text-primary text-xl">inventory_2</span>
+            <h3 class="font-bold text-honey-dark">Control por lote</h3>
+          </div>
+          <p class="text-honey-mid text-sm">Revisión de cada lote antes de salir: apariencia, acabado y parámetros definidos de calidad.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 border border-primary/10">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="material-symbols-outlined text-primary text-xl">shield_check</span>
+            <h3 class="font-bold text-honey-dark">Buenas prácticas</h3>
+          </div>
+          <p class="text-honey-mid text-sm">Procesos ordenados y controlados, con estándares de higiene y manejo responsable en producción.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 border border-primary/10">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="material-symbols-outlined text-primary text-xl">package_2</span>
+            <h3 class="font-bold text-honey-dark">Empaque y terminado</h3>
+          </div>
+          <p class="text-honey-mid text-sm">Cuidado en el detalle final para proteger el producto y conservar su calidad.</p>
+        </div>
+        <div class="bg-primary/5 rounded-xl p-4 border border-primary/15 text-center">
+          <p class="text-xs text-honey-mid">Registro sanitario INVIMA: <strong>[NÚMERO / PENDIENTE DE ASIGNACIÓN]</strong></p>
+          <p class="text-xs font-bold text-primary mt-1 uppercase tracking-wider">Calidad premium, con procesos que generan confianza.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TESTIMONIOS ==================== -->
+<section id="testimonios" class="py-28 px-6 md:px-12 bg-honey-dark text-white">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label block mb-3 text-primary">Testimonios</span>
+      <h2 class="serif font-bold text-4xl md:text-5xl mb-3">Lo que dicen nuestros <em class="italic text-primary">clientes</em></h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+      <div class="reveal bg-white/5 border border-white/10 rounded-3xl p-8" style="transition-delay:0.05s">
+        <div class="stars text-xl mb-4">★★★★★</div>
+        <p class="text-white/80 italic leading-relaxed mb-5">
+          "Me encantó HoneyB: en mi cabello crespo me ayuda a mantener los rizos hidratados y, aunque tengo la piel muy seca y alérgica, me funcionó súper bien. Lo recomiendo."
+        </p>
+        <div class="text-xs text-primary font-bold uppercase tracking-wider">Cliente HoneyB — Bucaramanga</div>
+      </div>
+      <div class="reveal bg-white/5 border border-white/10 rounded-3xl p-8" style="transition-delay:0.15s">
+        <div class="stars text-xl mb-4">★★★★★</div>
+        <p class="text-white/80 italic leading-relaxed mb-5">
+          "Descubrí este shampoo sólido de miel en Colombia y me encantó. Es realmente genial: lo recomiendo 100%. ¡Vive la experiencia HoneyB!"
+        </p>
+        <div class="text-xs text-primary font-bold uppercase tracking-wider">Cliente internacional — Francia</div>
+      </div>
+    </div>
+
+    <div class="reveal text-center">
+      <p class="text-white/30 text-xs max-w-md mx-auto">HoneyB ha evolucionado desde 2022. Algunos testimonios pueden mostrar presentaciones anteriores; hoy contamos con una fórmula optimizada y una experiencia más consistente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section id="faq" class="py-28 px-6 md:px-12 bg-white">
+  <div class="max-w-[800px] mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label block mb-3">Preguntas frecuentes</span>
+      <h2 class="serif font-bold text-4xl md:text-5xl mb-3">Todo lo que necesitas <em class="italic text-primary">saber</em></h2>
+    </div>
+
+    <div class="space-y-3 reveal">
+      <!-- FAQ items -->
+      <div class="faq-item border border-primary/10 rounded-2xl overflow-hidden bg-background-light">
+        <button onclick="toggleFaq(this)" class="faq-trigger w-full p-6 text-left font-bold hover:bg-primary/4 transition-colors">
+          <span>¿Cómo se usa?</span>
+        </button>
+        <div class="faq-answer px-6 pb-6 text-honey-mid text-sm leading-relaxed">
+          Humedece el cabello, frota la barra en las manos o directamente sobre el cabello, masajea y enjuaga.
+        </div>
+      </div>
+
+      <div class="faq-item border border-primary/10 rounded-2xl overflow-hidden bg-background-light">
+        <button onclick="toggleFaq(this)" class="faq-trigger w-full p-6 text-left font-bold hover:bg-primary/4 transition-colors">
+          <span>¿Cómo lo conservo para que dure más?</span>
+        </button>
+        <div class="faq-answer px-6 pb-6 text-honey-mid text-sm leading-relaxed">
+          Déjalo secar en una jabonera con drenaje, lejos del chorro directo. Entre más se seque, más dura.
+        </div>
+      </div>
+
+      <div class="faq-item border border-primary/10 rounded-2xl overflow-hidden bg-background-light">
+        <button onclick="toggleFaq(this)" class="faq-trigger w-full p-6 text-left font-bold hover:bg-primary/4 transition-colors">
+          <span>¿Cuánto dura?</span>
+        </button>
+        <div class="faq-answer px-6 pb-6 text-honey-mid text-sm leading-relaxed">
+          70 g: 35–58 lavadas aprox. (≈ 2–3 botellas según uso). 20 g: 10–16 lavadas aprox. (≈ 0,5–1 botella según uso).
+        </div>
+      </div>
+
+      <div class="faq-item border border-primary/10 rounded-2xl overflow-hidden bg-background-light">
+        <button onclick="toggleFaq(this)" class="faq-trigger w-full p-6 text-left font-bold hover:bg-primary/4 transition-colors">
+          <span>¿Para qué tipo de cabello es?</span>
+        </button>
+        <div class="faq-answer px-6 pb-6 text-honey-mid text-sm leading-relaxed">
+          Es una opción de uso diario pensada para una rutina práctica y premium. Si nos cuentas tu necesidad por WhatsApp, te orientamos.
+        </div>
+      </div>
+
+      <div class="faq-item border border-primary/10 rounded-2xl overflow-hidden bg-background-light">
+        <button onclick="toggleFaq(this)" class="faq-trigger w-full p-6 text-left font-bold hover:bg-primary/4 transition-colors">
+          <span>¿Hace buena espuma?</span>
+        </button>
+        <div class="faq-answer px-6 pb-6 text-honey-mid text-sm leading-relaxed">
+          Sí. Genera espuma cremosa para una experiencia cómoda y premium.
+        </div>
+      </div>
+
+      <div class="faq-item border border-primary/10 rounded-2xl overflow-hidden bg-background-light">
+        <button onclick="toggleFaq(this)" class="faq-trigger w-full p-6 text-left font-bold hover:bg-primary/4 transition-colors">
+          <span>¿Es para toda la familia?</span>
+        </button>
+        <div class="faq-answer px-6 pb-6 text-honey-mid text-sm leading-relaxed">
+          Sí, es ideal para una rutina diaria en casa.
+        </div>
+      </div>
+
+      <div class="faq-item border border-primary/10 rounded-2xl overflow-hidden bg-background-light">
+        <button onclick="toggleFaq(this)" class="faq-trigger w-full p-6 text-left font-bold hover:bg-primary/4 transition-colors">
+          <span>¿Puedo comprar para hotelería o glamping?</span>
+        </button>
+        <div class="faq-answer px-6 pb-6 text-honey-mid text-sm leading-relaxed">
+          Sí. Tenemos presentación de 20 g ideal para amenidades premium. Escríbenos para cotizar.
+        </div>
+      </div>
+
+      <div class="faq-item border border-primary/10 rounded-2xl overflow-hidden bg-background-light">
+        <button onclick="toggleFaq(this)" class="faq-trigger w-full p-6 text-left font-bold hover:bg-primary/4 transition-colors">
+          <span>¿Por qué en algunas fotos el empaque se ve diferente?</span>
+        </button>
+        <div class="faq-answer px-6 pb-6 text-honey-mid text-sm leading-relaxed">
+          HoneyB ha evolucionado desde 2022. Algunas imágenes corresponden a versiones anteriores. Hoy contamos con una presentación actualizada y una fórmula optimizada para una experiencia más consistente.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HOTELERÍA ==================== -->
+<section id="hoteleria" class="py-28 px-6 md:px-12 bg-background-light">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="bg-honey-dark rounded-[2rem] overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2">
+        <!-- Content -->
+        <div class="p-10 md:p-16 text-white">
+          <div class="reveal">
+            <span class="section-label block mb-3 text-primary">B2B</span>
+            <h2 class="serif font-bold text-4xl md:text-5xl mb-4">Hotelería & <em class="italic text-primary">Glamping</em></h2>
+            <p class="text-white/60 mb-8">Amenidad premium que eleva la experiencia del huésped y reduce residuos.</p>
+
+            <p class="text-white/80 leading-relaxed mb-8 text-sm">
+              Ofrece a tus huéspedes un shampoo sólido de calidad premium, con fragancias limpias y sofisticadas, en una presentación ideal para hospitalidad (20 g). Una experiencia memorable, con empaque ecofriendly y una propuesta alineada con la reducción de plásticos.
+            </p>
+
+            <!-- Specs grid -->
+            <div class="grid grid-cols-2 gap-3 mb-8 text-sm">
+              <div class="bg-white/5 rounded-xl p-3"><span class="text-primary font-bold block text-xs uppercase tracking-wider mb-1">Presentación</span>20 g (amenidad premium)</div>
+              <div class="bg-white/5 rounded-xl p-3"><span class="text-primary font-bold block text-xs uppercase tracking-wider mb-1">Duración</span>10–16 lavadas (≈ 0,5–1 botella)</div>
+              <div class="bg-white/5 rounded-xl p-3"><span class="text-primary font-bold block text-xs uppercase tracking-wider mb-1">Empaque</span>Cartón ecofriendly 100% reciclable</div>
+              <div class="bg-white/5 rounded-xl p-3"><span class="text-primary font-bold block text-xs uppercase tracking-wider mb-1">Aromas</span>Lino Blanco / Flor de Café / Bosque Andino</div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a href="https://wa.me/573180775959?text=Hola,%20quiero%20cotizar%20amenidades%20HoneyB%20para%20hotelería" target="_blank"
+                 class="px-7 py-3.5 bg-primary text-white font-bold rounded-xl hover:bg-primary-light hover:text-honey-dark transition-all text-sm uppercase tracking-wider text-center">
+                Solicitar cotización
+              </a>
+            </div>
+            <p class="text-white/30 text-xs mt-3">Responde en menos de 24–48 h hábiles con propuesta según tu necesidad.</p>
+          </div>
+        </div>
+
+        <!-- Benefits -->
+        <div class="p-10 md:p-16 bg-white/3 border-l border-white/5 text-white">
+          <div class="reveal" style="transition-delay:0.1s">
+            <h3 class="serif text-xl font-bold mb-6 text-primary">¿Por qué a tus huéspedes les encanta?</h3>
+            <div class="space-y-4 mb-10">
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-primary text-sm mt-0.5">star</span>
+                <p class="text-sm text-white/70">Sensación premium: espuma cremosa, limpieza efectiva, aroma elegante</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-primary text-sm mt-0.5">star</span>
+                <p class="text-sm text-white/70">Práctico y bonito: perfecto para kits de bienvenida y experiencia "wow"</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-primary text-sm mt-0.5">star</span>
+                <p class="text-sm text-white/70">Producto memorable: mejora la percepción de marca del hotel</p>
+              </div>
+            </div>
+
+            <h3 class="serif text-xl font-bold mb-6 text-primary">¿Por qué le conviene a tu operación?</h3>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-sage text-sm mt-0.5">check_circle</span>
+                <p class="text-sm text-white/70">Reduce residuos plásticos frente a amenidades líquidas en envase</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-sage text-sm mt-0.5">check_circle</span>
+                <p class="text-sm text-white/70">Mayor valor percibido por huésped (experiencia de lujo sin saturar)</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-sage text-sm mt-0.5">check_circle</span>
+                <p class="text-sm text-white/70">Cotización flexible según volumen, personalización y destino</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTACTO ==================== -->
+<section id="contacto" class="py-28 px-6 md:px-12 bg-white">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div class="reveal">
+        <span class="section-label block mb-3">Contacto</span>
+        <h2 class="serif font-bold text-5xl md:text-6xl mb-6"><em class="italic text-primary">Hablemos</em></h2>
+        <p class="text-honey-mid mb-10">Dudas, alianzas o cotizaciones.</p>
+
+        <div class="space-y-5">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-primary">location_on</span>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-primary uppercase tracking-wider mb-0.5">Base</div>
+              <div class="font-medium text-honey-dark">Bucaramanga, Colombia</div>
+            </div>
+          </div>
+
+          <a href="https://wa.me/573180775959" target="_blank" class="flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary transition-all">
+              <svg class="w-5 h-5 text-primary group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-primary uppercase tracking-wider mb-0.5">WhatsApp</div>
+              <div class="font-medium text-honey-dark group-hover:text-primary transition-colors">+57 318 077 5959</div>
+            </div>
+          </a>
+
+          <a href="mailto:honeybcorporativo@gmail.com" class="flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary transition-all">
+              <span class="material-symbols-outlined text-primary group-hover:text-white transition-colors">mail</span>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-primary uppercase tracking-wider mb-0.5">Correo</div>
+              <div class="font-medium text-honey-dark group-hover:text-primary transition-colors">honeybcorporativo@gmail.com</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Social buttons -->
+        <div class="flex gap-4 mt-10">
+          <a href="https://www.instagram.com/honeyb_natural_cosmetics/" target="_blank"
+             class="w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@honeyb_natural_cosmetics" target="_blank"
+             class="w-12 h-12 rounded-full bg-black flex items-center justify-center hover:scale-110 transition-transform shadow-lg">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- CTA card -->
+      <div class="reveal-right">
+        <div class="bg-gradient-to-br from-primary/8 to-sage/8 rounded-3xl p-10 border border-primary/15">
+          <h3 class="serif text-3xl font-bold mb-4">¿Listo para probar <em class="italic text-primary">HoneyB</em>?</h3>
+          <p class="text-honey-mid mb-8 text-sm leading-relaxed">Escríbenos por WhatsApp para hacer tu pedido, resolver dudas o cotizar para tu hotel.</p>
+          <div class="space-y-3">
+            <a href="https://wa.me/573180775959" target="_blank"
+               class="flex items-center justify-center gap-2 w-full py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary-light hover:text-honey-dark transition-all text-sm uppercase tracking-wider">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Soporte por WhatsApp
+            </a>
+            <a href="https://wa.me/573180775959?text=Hola,%20quiero%20cotizar%20amenidades%20HoneyB%20para%20hotelería" target="_blank"
+               class="flex items-center justify-center gap-2 w-full py-4 border-2 border-primary/30 text-honey-dark font-bold rounded-xl hover:bg-primary/8 transition-all text-sm uppercase tracking-wider">
+              <span class="material-symbols-outlined text-primary text-sm">hotel</span>
+              Cotizar hotelería
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="bg-honey-dark text-slate-100 py-20 px-6 md:px-12">
+  <div class="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+    <div class="md:col-span-1">
+      <div class="flex items-center gap-2 mb-5">
+        <img alt="HoneyB Logo" class="h-8 w-8 filter brightness-0 invert" src="img/LogoHoneyB amarillo.png" onerror="this.style.display='none'"/>
+        <span class="text-2xl font-black tracking-tight serif text-primary">Honey'B</span>
+      </div>
+      <p class="text-slate-400 text-sm leading-relaxed mb-2">Shampoo sólido premium con miel. Desde Colombia con propósito.</p>
+      <p class="text-xs text-primary font-semibold">Fórmula más limpia. Rinde más. Se siente mejor.</p>
+    </div>
+
+    <div>
+      <h6 class="font-bold mb-5 uppercase tracking-widest text-xs text-primary">Navegar</h6>
+      <ul class="space-y-3 text-slate-400 text-sm">
+        <li><a class="hover:text-primary transition-colors" href="#porque">Por qué HoneyB</a></li>
+        <li><a class="hover:text-primary transition-colors" href="#historia">Historia</a></li>
+        <li><a class="hover:text-primary transition-colors" href="#productos">Productos</a></li>
+        <li><a class="hover:text-primary transition-colors" href="#aromas">Aromas</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h6 class="font-bold mb-5 uppercase tracking-widest text-xs text-primary">Empresa</h6>
+      <ul class="space-y-3 text-slate-400 text-sm">
+        <li><a class="hover:text-primary transition-colors" href="#proveedores">Proveedores</a></li>
+        <li><a class="hover:text-primary transition-colors" href="#calidad">Calidad</a></li>
+        <li><a class="hover:text-primary transition-colors" href="#hoteleria">Hotelería</a></li>
+        <li><a class="hover:text-primary transition-colors" href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h6 class="font-bold mb-5 uppercase tracking-widest text-xs text-primary">Contacto</h6>
+      <ul class="space-y-3 text-slate-400 text-sm">
+        <li><a class="hover:text-primary transition-colors flex items-center gap-2" href="https://wa.me/573180775959" target="_blank">
+          <span class="material-symbols-outlined text-primary text-sm">phone</span>+57 318 077 5959</a></li>
+        <li><a class="hover:text-primary transition-colors flex items-center gap-2" href="mailto:honeybcorporativo@gmail.com">
+          <span class="material-symbols-outlined text-primary text-sm">mail</span>honeybcorporativo@gmail.com</a></li>
+        <li><a class="hover:text-primary transition-colors flex items-center gap-2" href="https://www.instagram.com/honeyb_natural_cosmetics/" target="_blank">
+          <span class="material-symbols-outlined text-primary text-sm">camera</span>@honeyb_natural_cosmetics</a></li>
+        <li><span class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">location_on</span>Bucaramanga, Colombia</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="max-w-[1280px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+    <p>© 2024 Honey'B S.A.S. — Hecho con 🍯 en Colombia. Todos los derechos reservados.</p>
+    <div class="flex gap-6">
+      <a class="hover:text-primary" href="#">Privacidad</a>
+      <a class="hover:text-primary" href="#">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script>
+// ---- Carousel ----
+document.addEventListener('DOMContentLoaded', function () {
+  initLanguageSwitcher();
+  initFadeCarousel('.carousel-img', 4000);
+  initFadeCarousel('.providers-carousel-img', 4000);
+  initFadeCarousel('.quality-carousel-item', 4000);
+
+  // ---- Scroll reveal ----
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+  // ---- Navbar shrink ----
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.style.boxShadow = window.scrollY > 40 ? '0 4px 24px rgba(0,0,0,0.08)' : '';
+  });
+
+  // ---- Mobile nav ----
+  document.getElementById('mobile-btn').addEventListener('click', () => {
+    document.getElementById('mobile-nav').classList.replace('hidden', 'flex');
+  });
+  document.getElementById('mobile-close').addEventListener('click', closeMobileNav);
+});
+
+function initFadeCarousel(selector, interval = 4000) {
+  const images = Array.from(document.querySelectorAll(selector)).filter((img) => {
+    const hiddenByError = img.style.display === 'none';
+    return !hiddenByError;
+  });
+
+  if (images.length === 0) return;
+
+  images[0].classList.add('active');
+  if (images.length === 1) return;
+
+  let idx = 0;
+  setInterval(() => {
+    images[idx].classList.remove('active');
+    idx = (idx + 1) % images.length;
+    images[idx].classList.add('active');
+  }, interval);
+}
+
+function closeMobileNav() {
+  document.getElementById('mobile-nav').classList.replace('flex', 'hidden');
+}
+
+const i18n = {
+  es: {
+    title: "Honey'B — Shampoo Sólido Premium con Miel",
+    nav_why: 'Por qué',
+    nav_story: 'Historia',
+    nav_products: 'Productos',
+    nav_scents: 'Aromas',
+    nav_suppliers: 'Proveedores',
+    nav_hospitality: 'Hotelería',
+    nav_contact: 'Contacto',
+    mobile_why_honeyb: 'Por qué HoneyB',
+    buy: 'Comprar',
+    buy_now: 'Comprar ahora'
+  },
+  en: {
+    title: "Honey'B — Premium Honey Solid Shampoo",
+    nav_why: 'Why',
+    nav_story: 'Story',
+    nav_products: 'Products',
+    nav_scents: 'Scents',
+    nav_suppliers: 'Suppliers',
+    nav_hospitality: 'Hospitality',
+    nav_contact: 'Contact',
+    mobile_why_honeyb: 'Why HoneyB',
+    buy: 'Buy',
+    buy_now: 'Buy now'
+  }
+};
+
+const textTranslations = {
+  en: {
+    'Desde 2022 — Innovación en cuidado capilar': 'Since 2022 — Innovation in hair care',
+    'Shampoo sólido': 'Solid shampoo',
+    'con miel.': 'with honey.',
+    'Cabello limpio, brillante y suave — con una fórmula más limpia': 'Clean, shiny, and soft hair — with a cleaner formula',
+    '(sin químicos contaminantes)': '(without polluting chemicals)',
+    '(sin químicos contaminantes).': '(without polluting chemicals).',
+    '= 35–58 lavadas': '= 35–58 washes',
+    '= 10–16 lavadas': '= 10–16 washes',
+    'Comprar ahora': 'Buy now',
+    'WhatsApp': 'WhatsApp',
+    'Cotizar hotelería': 'Request hospitality quote',
+    'Para toda la familia': 'For the whole family',
+    'Amable con el agua': 'Water-friendly',
+    'Proceso controlado': 'Controlled process',
+    'Miel premium': 'Premium honey',
+    'Fundación Skambra': 'Skambra Foundation',
+    'Desde': 'Since',
+    'Cabello premium, impacto real': 'Premium hair, real impact',
+    'Lujo consciente para tu rutina': 'Conscious luxury for your routine',
+    'Rinde más. Fórmula más limpia. Se siente mejor': 'Lasts longer. Cleaner formula. Feels better',
+    'Desde Colombia con propósito': 'From Colombia with purpose',
+    'Por qué HoneyB': 'Why HoneyB',
+    'Lujo consciente para tu': 'Conscious luxury for your',
+    'rutina': 'routine',
+    'Experiencia premium que se nota': 'A premium experience you can feel',
+    'Espuma cremosa, limpieza efectiva y una fragancia elegante, limpia y sofisticada.': 'Creamy foam, effective cleansing, and an elegant, clean, sophisticated fragrance.',
+    'Fórmula más limpia': 'Cleaner formula',
+    'Libre de químicos contaminantes: cuidado para ti y más respeto por el agua.': 'Free from polluting chemicals: care for you and greater respect for water.',
+    'Rinde muchísimo': 'Lasts a lot',
+    'Una barra dura decenas de lavadas: menos compras, menos envases, más valor.': 'One bar lasts dozens of washes: fewer purchases, fewer containers, more value.',
+    'Resultados que se notan desde la': 'Results you notice from the',
+    'primera lavada': 'first wash',
+    'Cabello limpio, brillante y suave — con una fórmula más limpia.': 'Clean, shiny, and soft hair — with a cleaner formula.',
+    '✓ Limpia sin resecar': '✓ Cleans without drying',
+    '✓ Brillo y suavidad': '✓ Shine and softness',
+    '✓ Cabello más fuerte': '✓ Stronger hair',
+    '✓ Cuero cabelludo cómodo': '✓ Comfortable scalp',
+    '✓ Para toda la familia': '✓ For the whole family',
+    'Historia': 'Story',
+    'HONEY\'B, una marca que ha': 'HONEY\'B, a brand that has',
+    'evolucionado': 'evolved',
+    'con propósito': 'with purpose',
+    'HONEY\'B nació en 2022 como un emprendimiento con una idea clara: crear un shampoo sólido premium que cuidara el cabello y redujera residuos. Desde entonces hemos evolucionado: mejoramos la fórmula, optimizamos procesos y elevamos la experiencia, manteniendo nuestro compromiso con el agua y con una cadena productiva responsable.': 'HONEY\'B was born in 2022 as an entrepreneurial project with a clear idea: create a premium solid shampoo that cares for hair and reduces waste. Since then we have evolved: we improved the formula, optimized processes, and elevated the experience while keeping our commitment to water and a responsible production chain.',
+    'Fundador & CEO · Honey\'B S.A.S.': 'Founder & CEO · Honey\'B S.A.S.',
+    'Emprendedor y consultor estratégico (2001).': 'Entrepreneur and strategic consultant (2001).',
+    'Cum Laude': 'Cum Laude',
+    'en Administración de Empresas y con MBA en curso. Lideró proyectos de sostenibilidad e innovación social y fue delegado en el 14.º Foro de Juventudes de la UNESCO. Su meta: llevar un producto colombiano premium a mercados internacionales.': 'in Business Administration and currently pursuing an MBA. He led sustainability and social innovation projects and was a delegate at the 14th UNESCO Youth Forum. His goal: bring a premium Colombian product to international markets.',
+    'Trayectoria real. Calidad en evolución. Impacto con intención.': 'Real track record. Evolving quality. Purposeful impact.',
+    'Nuestros productos': 'Our products',
+    'Compra': 'Buy',
+    'Elige tu presentación y aroma. Agrega al carrito y finaliza tu compra.': 'Choose your size and scent. Add to cart and complete your purchase.',
+    'Uso regular': 'Regular use',
+    'Formato ideal para el día a día: rinde muchísimo y deja el cabello limpio, suave y con brillo natural.': 'Ideal format for daily use: lasts a lot and leaves hair clean, soft, and naturally shiny.',
+    'Duración:': 'Duration:',
+    '35–58 lavadas (≈ 2–3 botellas aprox., según uso)': '35–58 washes (≈ 2–3 bottles, depending on use)',
+    'Ingredientes:': 'Ingredients:',
+    'Miel, romero, cúrcuma, manteca de karité, aceites esenciales': 'Honey, rosemary, turmeric, shea butter, essential oils',
+    'Empaque:': 'Packaging:',
+    'Cartón ecofriendly 100% reciclable': '100% recyclable eco-friendly cardboard',
+    'Agregar al carrito': 'Add to cart',
+    'Hospitalidad & Viaje': 'Hospitality & Travel',
+    'Amenidad premium para hotelería de lujo, glamping y experiencias exclusivas.': 'Premium amenity for luxury hospitality, glamping, and exclusive experiences.',
+    '10–16 lavadas (≈ 0,5–1 botella aprox., según uso)': '10–16 washes (≈ 0.5–1 bottle, depending on use)',
+    '¿Eres hotel o glamping? Cotiza aquí →': 'Are you a hotel or glamping? Request a quote here →',
+    '🇨🇴 Envíos a Colombia · ✈️ Despachos internacionales (consulta destino)': '🇨🇴 Shipping in Colombia · ✈️ International shipping (destination upon request)',
+    'Cómo se usa': 'How to use',
+    '¿Primera vez con shampoo sólido?': 'First time with solid shampoo?',
+    'Es facilísimo.': 'It is super easy.',
+    '3 pasos y listo: una rutina premium, más limpia y sin plástico.': '3 steps and done: a premium, cleaner, plastic-free routine.',
+    'Humedece': 'Wet',
+    'Moja tu cabello y la barra.': 'Wet your hair and the bar.',
+    'Activa la espuma': 'Activate the foam',
+    'Frota la barra en tus manos o directamente en el cabello hasta generar espuma cremosa.': 'Rub the bar on your hands or directly on your hair until creamy foam appears.',
+    'Masajea y enjuaga': 'Massage and rinse',
+    'Masajea como siempre y enjuaga con agua.': 'Massage as usual and rinse with water.',
+    '💡 Tip para que dure más:': '💡 Tip to make it last longer:',
+    'Déjala secar en una jabonera con drenaje, lejos del chorro directo.': 'Let it dry on a draining soap dish, away from direct water flow.',
+    'Aromas': 'Scents',
+    'Tres aromas, un sello: limpio,': 'Three scents, one signature: clean,',
+    'elegante': 'elegant',
+    'y memorable.': 'and memorable.',
+    'Aromas diseñados para quedarse en la memoria, sin saturar: frescos, limpios y sofisticados.': 'Scents designed to stay in memory without overwhelming: fresh, clean, and sophisticated.',
+    'Lino Blanco': 'White Linen',
+    'limpio · minimalista · universal': 'clean · minimalist · universal',
+    'Frescura elegante que combina con todo.': 'Elegant freshness that matches everything.',
+    'Flor de Café': 'Coffee Blossom',
+    'Colombia sofisticada · memorable · nada dulce': 'Sophisticated Colombia · memorable · not sweet',
+    'Un sello distintivo, fino y único.': 'A distinctive, refined, and unique signature.',
+    'Bosque Andino': 'Andean Forest',
+    'spa moderno · fresco-verde · naturaleza premium': 'modern spa · fresh-green · premium nature',
+    'Verde, limpio y revitalizante.': 'Green, clean, and revitalizing.',
+    'Compromiso': 'Commitment',
+    'Impacto que se siente.': 'Impact you can feel.',
+    'Impacto que se mide.': 'Impact you can measure.',
+    'Lo que pones en tu cabello también termina en el agua. Por eso nuestra fórmula es libre de químicos contaminantes, y al ser sólida reduce el uso de envases.': 'What you put on your hair also ends up in the water. That is why our formula is free from polluting chemicals, and being solid reduces packaging use.',
+    'Agua más limpia': 'Cleaner water',
+    'Fórmula libre de químicos contaminantes para un cuidado responsable con el entorno.': 'Formula free from polluting chemicals for responsible care of the environment.',
+    'Menos plástico': 'Less plastic',
+    'Reduces envases con cada barra. Empaque 100% ecofriendly y reciclable.': 'You reduce packaging with each bar. 100% eco-friendly and recyclable packaging.',
+    'Rinde más': 'Lasts longer',
+    'Hasta 58 lavadas por barra. Menos compras, menos residuos, más valor real.': 'Up to 58 washes per bar. Fewer purchases, less waste, more real value.',
+    'Cadena de valor': 'Value chain',
+    'Detrás de cada barra,': 'Behind each bar,',
+    'hay un territorio': 'there is a territory',
+    'La miel que usamos en HoneyB proviene de la': 'The honey we use at HoneyB comes from',
+    'Fundación Skambra Al Desarrollo': 'Skambra for Development Foundation',
+    '(Alianza con apicultores de Tierralta, Córdoba). Más que un proveedor, es un aliado que nos permite construir una relación basada en confianza, comercio responsable y valor compartido.': '(Alliance with beekeepers from Tierralta, Córdoba). More than a supplier, it is a partner that lets us build a relationship based on trust, responsible trade, and shared value.',
+    'Elegimos esta cadena porque creemos que un producto premium también debe tener una historia coherente: calidad real, trazabilidad e impacto positivo para quienes producen.': 'We chose this chain because we believe a premium product should also have a coherent story: real quality, traceability, and positive impact for producers.',
+    'Trazabilidad': 'Traceability',
+    'Miel de origen verificado': 'Verified-origin honey',
+    'Relación': 'Relationship',
+    'Compras responsables': 'Responsible purchasing',
+    'Impacto social': 'Social impact',
+    'Familias apicultoras': 'Beekeeping families',
+    'No es solo un ingrediente: es una relación que cuidamos.': 'It is not just an ingredient: it is a relationship we care for.',
+    'Producción': 'Production',
+    'Hecho con rigor.': 'Made with rigor.',
+    'Diseñado para resultados.': 'Designed for results.',
+    'Formulación optimizada · Proceso controlado · Calidad por lote': 'Optimized formulation · Controlled process · Batch quality',
+    'En HoneyB cuidamos cada etapa para entregar una experiencia premium constante: desde la formulación hasta el empaque. Trabajamos con un proceso de producción controlado y trazable, enfocado en seguridad, desempeño y consistencia.': 'At HoneyB we care for every stage to deliver a consistent premium experience: from formulation to packaging. We work with a controlled and traceable production process focused on safety, performance, and consistency.',
+    'Formulación y estabilidad': 'Formulation and stability',
+    'Evaluaciones de calidad y estabilidad para mantener una experiencia consistente: textura, espuma y desempeño.': 'Quality and stability evaluations to keep a consistent experience: texture, foam, and performance.',
+    'Control por lote': 'Batch control',
+    'Revisión de cada lote antes de salir: apariencia, acabado y parámetros definidos de calidad.': 'Review of each batch before release: appearance, finish, and defined quality parameters.',
+    'Buenas prácticas': 'Best practices',
+    'Procesos ordenados y controlados, con estándares de higiene y manejo responsable en producción.': 'Organized and controlled processes, with hygiene standards and responsible handling in production.',
+    'Empaque y terminado': 'Packaging and finishing',
+    'Cuidado en el detalle final para proteger el producto y conservar su calidad.': 'Care in the final detail to protect the product and preserve its quality.',
+    'Registro sanitario INVIMA:': 'INVIMA health registration:',
+    '[NÚMERO / PENDIENTE DE ASIGNACIÓN]': '[NUMBER / PENDING ASSIGNMENT]',
+    'Calidad premium, con procesos que generan confianza.': 'Premium quality, with processes that build trust.',
+    'Testimonios': 'Testimonials',
+    'Lo que dicen nuestros': 'What our',
+    'clientes': 'customers say',
+    '"Me encantó HoneyB: en mi cabello crespo me ayuda a mantener los rizos hidratados y, aunque tengo la piel muy seca y alérgica, me funcionó súper bien. Lo recomiendo."': '"I loved HoneyB: on my curly hair it helps keep my curls hydrated and, even though I have very dry and allergy-prone skin, it worked great for me. I recommend it."',
+    'Cliente HoneyB — Bucaramanga': 'HoneyB customer — Bucaramanga',
+    '"Descubrí este shampoo sólido de miel en Colombia y me encantó. Es realmente genial: lo recomiendo 100%. ¡Vive la experiencia HoneyB!"': '"I discovered this honey solid shampoo in Colombia and loved it. It is truly great: I recommend it 100%. Live the HoneyB experience!"',
+    'Cliente internacional — Francia': 'International customer — France',
+    'HoneyB ha evolucionado desde 2022. Algunos testimonios pueden mostrar presentaciones anteriores; hoy contamos con una fórmula optimizada y una experiencia más consistente.': 'HoneyB has evolved since 2022. Some testimonials may show previous presentations; today we have an optimized formula and a more consistent experience.',
+    'Preguntas frecuentes': 'Frequently asked questions',
+    'Todo lo que necesitas': 'Everything you need',
+    'saber': 'to know',
+    '¿Cómo se usa?': 'How is it used?',
+    'Humedece el cabello, frota la barra en las manos o directamente sobre el cabello, masajea y enjuaga.': 'Wet your hair, rub the bar on your hands or directly on your hair, massage, and rinse.',
+    '¿Cómo lo conservo para que dure más?': 'How do I store it so it lasts longer?',
+    'Déjalo secar en una jabonera con drenaje, lejos del chorro directo. Entre más se seque, más dura.': 'Let it dry on a draining soap dish, away from direct water flow. The drier it stays, the longer it lasts.',
+    '¿Cuánto dura?': 'How long does it last?',
+    '70 g: 35–58 lavadas aprox. (≈ 2–3 botellas según uso). 20 g: 10–16 lavadas aprox. (≈ 0,5–1 botella según uso).': '70 g: about 35–58 washes (≈ 2–3 bottles depending on use). 20 g: about 10–16 washes (≈ 0.5–1 bottle depending on use).',
+    '¿Para qué tipo de cabello es?': 'What hair type is it for?',
+    'Es una opción de uso diario pensada para una rutina práctica y premium. Si nos cuentas tu necesidad por WhatsApp, te orientamos.': 'It is a daily-use option designed for a practical and premium routine. If you tell us your needs on WhatsApp, we will guide you.',
+    '¿Hace buena espuma?': 'Does it foam well?',
+    'Sí. Genera espuma cremosa para una experiencia cómoda y premium.': 'Yes. It creates creamy foam for a comfortable premium experience.',
+    '¿Es para toda la familia?': 'Is it for the whole family?',
+    'Sí, es ideal para una rutina diaria en casa.': 'Yes, it is ideal for a daily routine at home.',
+    '¿Puedo comprar para hotelería o glamping?': 'Can I buy for hotels or glamping?',
+    'Sí. Tenemos presentación de 20 g ideal para amenidades premium. Escríbenos para cotizar.': 'Yes. We have a 20 g format ideal for premium amenities. Message us for a quote.',
+    '¿Por qué en algunas fotos el empaque se ve diferente?': 'Why does the packaging look different in some photos?',
+    'HoneyB ha evolucionado desde 2022. Algunas imágenes corresponden a versiones anteriores. Hoy contamos con una presentación actualizada y una fórmula optimizada para una experiencia más consistente.': 'HoneyB has evolved since 2022. Some images correspond to previous versions. Today we have an updated presentation and an optimized formula for a more consistent experience.',
+    'B2B': 'B2B',
+    'Hotelería &': 'Hospitality &',
+    'Glamping': 'Glamping',
+    'Amenidad premium que eleva la experiencia del huésped y reduce residuos.': 'Premium amenity that elevates the guest experience and reduces waste.',
+    'Ofrece a tus huéspedes un shampoo sólido de calidad premium, con fragancias limpias y sofisticadas, en una presentación ideal para hospitalidad (20 g). Una experiencia memorable, con empaque ecofriendly y una propuesta alineada con la reducción de plásticos.': 'Offer your guests a premium-quality solid shampoo with clean, sophisticated fragrances in an ideal hospitality format (20 g). A memorable experience, with eco-friendly packaging and a proposal aligned with plastic reduction.',
+    'Presentación': 'Format',
+    '20 g (amenidad premium)': '20 g (premium amenity)',
+    '10–16 lavadas (≈ 0,5–1 botella)': '10–16 washes (≈ 0.5–1 bottle)',
+    'Aromas': 'Scents',
+    'Lino Blanco / Flor de Café / Bosque Andino': 'White Linen / Coffee Blossom / Andean Forest',
+    'Solicitar cotización': 'Request quote',
+    'Responde en menos de 24–48 h hábiles con propuesta según tu necesidad.': 'We reply in under 24–48 business hours with a proposal based on your needs.',
+    '¿Por qué a tus huéspedes les encanta?': 'Why do your guests love it?',
+    'Sensación premium: espuma cremosa, limpieza efectiva, aroma elegante': 'Premium feel: creamy foam, effective cleansing, elegant scent',
+    'Práctico y bonito: perfecto para kits de bienvenida y experiencia "wow"': 'Practical and beautiful: perfect for welcome kits and a "wow" experience',
+    'Producto memorable: mejora la percepción de marca del hotel': 'Memorable product: improves the hotel\'s brand perception',
+    '¿Por qué le conviene a tu operación?': 'Why is it good for your operation?',
+    'Reduce residuos plásticos frente a amenidades líquidas en envase': 'Reduces plastic waste compared to liquid bottled amenities',
+    'Mayor valor percibido por huésped (experiencia de lujo sin saturar)': 'Higher perceived value for guests (luxury experience without overload)',
+    'Cotización flexible según volumen, personalización y destino': 'Flexible quotes based on volume, customization, and destination',
+    'Contacto': 'Contact',
+    'Hablemos': 'Let\'s talk',
+    'Dudas, alianzas o cotizaciones.': 'Questions, partnerships, or quotes.',
+    'Base': 'Base',
+    'Correo': 'Email',
+    '¿Listo para probar': 'Ready to try',
+    'Escríbenos por WhatsApp para hacer tu pedido, resolver dudas o cotizar para tu hotel.': 'Write to us on WhatsApp to place your order, solve doubts, or request a quote for your hotel.',
+    'Soporte por WhatsApp': 'WhatsApp support',
+    'Shampoo sólido premium con miel. Desde Colombia con propósito.': 'Premium honey solid shampoo. From Colombia with purpose.',
+    'Fórmula más limpia. Rinde más. Se siente mejor.': 'Cleaner formula. Lasts longer. Feels better.',
+    'Navegar': 'Navigate',
+    'Empresa': 'Company',
+    'Proveedores': 'Suppliers',
+    'Calidad': 'Quality',
+    'Bucaramanga, Colombia': 'Bucaramanga, Colombia',
+    '© 2024 Honey\'B S.A.S. — Hecho con 🍯 en Colombia. Todos los derechos reservados.': '© 2024 Honey\'B S.A.S. — Made with 🍯 in Colombia. All rights reserved.',
+    'Privacidad': 'Privacy',
+    'Cookies': 'Cookies'
+  }
+};
+
+const attributeTranslations = {
+  en: {
+    'HoneyB Shampoo Sólido': 'HoneyB Solid Shampoo',
+    'HoneyB Natural': 'HoneyB Natural',
+    'HoneyB Premium': 'HoneyB Premium',
+    'Santiago Cavanzo — Fundador Honey\'B': 'Santiago Cavanzo — Honey\'B Founder',
+    'Apicultores Tierralta': 'Tierralta Beekeepers',
+    'Miel artesanal': 'Artisanal honey',
+    'Producto HoneyB': 'HoneyB product',
+    'Proceso de producción': 'Production process',
+    'Control de calidad': 'Quality control'
+  }
+};
+
+const originalTextByNode = new WeakMap();
+const originalAltByElement = new WeakMap();
+let translatableTextNodes = [];
+
+function normalizeText(value) {
+  return value.replace(/\s+/g, ' ').trim();
+}
+
+function collectTranslatableTextNodes() {
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (!node || !node.parentElement) return NodeFilter.FILTER_REJECT;
+      if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      if (node.parentElement.closest('script, style, noscript, svg')) return NodeFilter.FILTER_REJECT;
+      if (node.parentElement.classList.contains('material-symbols-outlined')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+
+  translatableTextNodes = [];
+  let current = walker.nextNode();
+  while (current) {
+    translatableTextNodes.push(current);
+    if (!originalTextByNode.has(current)) {
+      originalTextByNode.set(current, current.nodeValue);
+    }
+    current = walker.nextNode();
+  }
+}
+
+function translateTextNodes(lang) {
+  const dictionary = textTranslations[lang] || {};
+
+  translatableTextNodes.forEach((node) => {
+    const original = originalTextByNode.get(node);
+    if (typeof original !== 'string') return;
+
+    if (lang === 'es') {
+      node.nodeValue = original;
+      return;
+    }
+
+    const match = original.match(/^(\s*)([\s\S]*?)(\s*)$/);
+    if (!match) return;
+    const lead = match[1];
+    const core = match[2];
+    const trail = match[3];
+    const normalized = normalizeText(core);
+
+    if (!normalized) return;
+    const translated = dictionary[normalized];
+    node.nodeValue = translated ? `${lead}${translated}${trail}` : original;
+  });
+}
+
+function translateAttributes(lang) {
+  const dictionary = attributeTranslations[lang] || {};
+  document.querySelectorAll('img[alt]').forEach((img) => {
+    if (!originalAltByElement.has(img)) {
+      originalAltByElement.set(img, img.getAttribute('alt') || '');
+    }
+    const originalAlt = originalAltByElement.get(img) || '';
+    if (lang === 'es') {
+      img.setAttribute('alt', originalAlt);
+      return;
+    }
+    img.setAttribute('alt', dictionary[originalAlt] || originalAlt);
+  });
+}
+
+function setLanguage(lang) {
+  const selected = i18n[lang] ? lang : 'es';
+  document.documentElement.lang = selected === 'es' ? 'es' : 'en';
+  document.title = i18n[selected].title;
+
+  document.querySelectorAll('[data-i18n]').forEach((element) => {
+    const key = element.getAttribute('data-i18n');
+    if (i18n[selected][key]) {
+      element.textContent = i18n[selected][key];
+    }
+  });
+
+  translateTextNodes(selected);
+  translateAttributes(selected);
+
+  const esButtons = [document.getElementById('lang-es'), document.getElementById('lang-es-mobile')].filter(Boolean);
+  const enButtons = [document.getElementById('lang-en'), document.getElementById('lang-en-mobile')].filter(Boolean);
+
+  esButtons.forEach((btn) => btn.classList.toggle('active', selected === 'es'));
+  enButtons.forEach((btn) => btn.classList.toggle('active', selected === 'en'));
+
+  localStorage.setItem('honeyb_lang', selected);
+}
+
+function initLanguageSwitcher() {
+  const savedLang = localStorage.getItem('honeyb_lang') || 'es';
+
+  collectTranslatableTextNodes();
+
+  const esBtn = document.getElementById('lang-es');
+  const enBtn = document.getElementById('lang-en');
+  const esBtnMobile = document.getElementById('lang-es-mobile');
+  const enBtnMobile = document.getElementById('lang-en-mobile');
+
+  if (esBtn) esBtn.addEventListener('click', () => setLanguage('es'));
+  if (enBtn) enBtn.addEventListener('click', () => setLanguage('en'));
+  if (esBtnMobile) esBtnMobile.addEventListener('click', () => setLanguage('es'));
+  if (enBtnMobile) enBtnMobile.addEventListener('click', () => setLanguage('en'));
+
+  setLanguage(savedLang);
+}
+
+// ---- FAQ accordion ----
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
